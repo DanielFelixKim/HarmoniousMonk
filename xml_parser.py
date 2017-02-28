@@ -4,10 +4,7 @@ tree = ET.parse('it_could_happen_to_you.xml')
 root = tree.getroot()
 
 #Set root to part since measure is a child in part
-for child in root:
-	if child.tag == 'part':
-		root = child
-		break
+root = root.find ("part")
 
 chord_list = []
 
@@ -21,7 +18,6 @@ for measure in root:
 			root_step += '#'
 		elif root_alter == '-1':
 			root_step += 'b'
-		print root_step
 		#Find chord qualities and convert to shorthand
 		quality = chord.find('kind').text
 		if quality == 'major-seventh':
@@ -32,7 +28,6 @@ for measure in root:
 			quality = '7'
 		elif quality == 'diminished-seventh':
 			quality = 'dim7'
-		print quality
 		degree = chord.find('degree')
 		if degree is not None:
 			extension = degree.find('degree-value').text
