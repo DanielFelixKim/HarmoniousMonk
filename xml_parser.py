@@ -4,7 +4,7 @@ tree = ET.parse('it_could_happen_to_you.xml')
 root = tree.getroot()
 
 #Set root to part since measure is a child in part
-root = root.find ("part")
+root = root.find("part")
 
 chord_list = []
 
@@ -41,8 +41,7 @@ for measure in root:
 			elif extension == '9' and extension_alt == '1':
 				extension = '#9'
 			elif extension == '9' and extension_alt == '0':
-				extension = '9'
-			print extension
+				extension = '9'	
 		else: 
 			extension = None
 		chord_list.append(Chord(root_step, quality, extension))
