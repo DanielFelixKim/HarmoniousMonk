@@ -7,6 +7,10 @@ TUNES = ['there_will_never_be_another_you.xml', 'four.xml',
 
 ALL_CHORDS = chord.get_all_chords()
 
+"""transition_matrix is a function that takes in a list of chords from a tune and 
+returns a matrix with the number of transitions from one chord to another. 
+The X and Y axes are from ALL_CHORDS"""
+
 def transition_matrix(tune_chords):
 	n = len(ALL_CHORDS)
 	trans_matrix = np.zeros((n, n))
@@ -35,5 +39,14 @@ def tunes_chord_probs(tunes=TUNES):
 	tunes_prob_matrix = probability_matrix(trans_matrices)
 	return tunes_prob_matrix
 
-test=tunes_chord_probs()
-print test
+def chord_prob(chord_1, chord_2, probability_matrix):
+	y_index = ALL_CHORDS.index(chord_1)
+	x_index = ALL_CHORDS.index(chord_2)
+	return probability_matrix[y_index,x_index]
+
+"""Test"""
+chord_1 = 'Ebmaj7'
+chord_2 = 'Dm7b5'
+chord_probs=tunes_chord_probs()
+chord_prob=chord_prob(chord_1,chord_2,chord_probs)
+print 'The probability of ', chord_1, ' going to ', chord_2, ' is ', chord_prob
