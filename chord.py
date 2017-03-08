@@ -1,14 +1,14 @@
 ROOTS = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
 
+QUALITIES = ['maj7', '6', 'm6', 'm7', 'mmaj7','7', 'm7b5', 'dim7', '7alt', '7b9', '7#11']
+
+STARTING_CHORD_PROBABILITY = {'maj7', '6', 'm6', 'm7', 'mmaj7','7', 'm7b5', 'dim7', '7alt', '7b9', '7#11'}
+
 KEY_ROOTS = {'C_0':'Gb','C_1':'Db','C_2':'Ab','C_3':'Eb','C_4':'Bb','C_5':'F',
 			 'C_6': 'C', 'C_7': 'G', 'C_8': 'D', 'C_9': 'A', 'C_10': 'E', 'C_11': 'B'}
 
 ROOT_NUM = {'Gb':'0', 'Db':'1', 'Ab':'2', 'Eb':'3', 'Bb':'4', 'F':'5', 
 			'C':'6', 'G':'7', 'D':'8', 'A':'9', 'E':'10', 'B':'11'}
-
-QUALITIES = ['maj7', '6', 'm6', 'm7', 'mmaj7','7', 'm7b5', 'dim7', '7alt', '7b9', '7#11']
-
-STARTING_CHORD_PROBABILITY = {'maj7', '6', 'm6', 'm7', 'mmaj7','7', 'm7b5', 'dim7', '7alt', '7b9', '7#11'}
 
 def get_all_chords():	
 	CHORDS = []

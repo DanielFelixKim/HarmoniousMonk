@@ -3,7 +3,7 @@ import chord
 import numpy as np
 
 TUNES = ['there_will_never_be_another_you.xml', 'four.xml',
- 'on_green_dolphin_street.xml', 'it_could_happen_to_you.xml']
+ 'on_green_dolphin_street.xml', 'it_could_happen_to_you.xml', 'i_love_you.xml']
 
 ALL_CHORDS = chord.get_all_chords()
 
@@ -36,19 +36,29 @@ def tunes_chord_probs(tunes=TUNES):
 	for tune in tunes:
 		key, key_quality = extract_key(tune)
 		tune_chords = extract_chords(tune, key)
-		print tune_chords
 		trans_matrix = transition_matrix(tune_chords)
 		trans_matrices.append(trans_matrix)
 	tunes_prob_matrix = probability_matrix(trans_matrices)
 	return tunes_prob_matrix
 
-def find_starting_probability(tunes=TUNES):
+def starting_probability(tunes=TUNES):
 	first_chords = []
+	n = len(ALL_CHORDS)
+	start_array = np.zeros(n)
 	for tune in tunes:
 		key, key_quality = extract_key(tune)
 		tune_chords = extract_chords(tune, key)
 		first_chords.append(tune_chords[0])
-	return first_chords
+	for i, chord in enumerate(first_chords):
+		chord_index = ALL_CHORDS.index(str(chord))
+		start_array[chord_index] += 1
+	sum_chords = np.sum(start_array)
+	start_prob = [float(chord / sum_chords) for chord in start_array]
+	return start_prob
+
+def find_start_prob(chord, starting_probability):
+	chord_index = ALL_CHORDS.index(chord)
+	return starting_probability[chord_index]
 
 def chord_prob(chord_1, chord_2, probability_matrix):
 	y_index = ALL_CHORDS.index(chord_1)
@@ -60,8 +70,10 @@ chord_1 = 'Cmaj7'
 chord_2 = 'Ebm7'
 chord_probs=tunes_chord_probs()
 chord_prob=chord_prob(chord_1,chord_2,chord_probs)
-first_chords = find_starting_probability()
-print first_chords
+start_prob = starting_probability()
+chord_start = 'Dm7b5'
+starting_chord_prob = find_start_prob(chord_start, start_prob)
+print 'The probability of a tune starting on ', chord_start, ' is ', starting_chord_prob
 print 'The probability of ', chord_1, ' going to ', chord_2, ' is ', chord_prob
 
 key,key_quality = extract_key('there_will_never_be_another_you.xml')
