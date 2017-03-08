@@ -1,7 +1,30 @@
 import xml.etree.ElementTree as ET
-from chord import Chord
+from chord import Chord, KEY_ROOTS, ROOT_NUM
 
-def extract_chords(input_file):
+def extract_key(input_file):
+	tree = ET.parse(input_file)
+	root = tree.getroot()
+
+	#Set root to part since measure is a child in part
+	for child in root:
+		if child.tag == 'part':
+			root = child
+			break
+
+	for measure in root:
+		number = measure.get('number')
+		if number == '1':
+			attributes = measure.find('attributes')
+			key_info = attributes.find('key')
+			key_num = key_info.find('fifths').text
+			key = eval(key_num + '+' + '6')
+			key = 'C_' + str(key)
+			key = KEY_ROOTS[key]
+			key_quality = key_info.find('mode').text
+	return key, key_quality
+
+
+def extract_chords(input_file, key):
 	tree = ET.parse(input_file)
 	root = tree.getroot()
 
@@ -23,6 +46,8 @@ def extract_chords(input_file):
 				root_step += '#'
 			elif root_alter == '-1':
 				root_step += 'b'
+			if root_step == 'F#':
+				root_step = 'Gb'
 			#Find chord qualities and convert to shorthand
 			kind = chord.find('kind')
 			quality = kind.get('text')
@@ -52,6 +77,16 @@ def extract_chords(input_file):
 					extension = 'b13'	
 			else: 
 				extension = None
-			chord_list.append(Chord(root_step, quality, extension))
-	return chord_list
+			if key == 'C':
+				chord_list.append(Chord(root_step, quality, extension))
+			else:
+		 		key_origin = ROOT_NUM['C']  
+		 		key_tune = ROOT_NUM[key]
+		 		key_offset = eval(key_origin + '-' + key_tune)
+		 		chord_offset = eval(ROOT_NUM[root_step] + '+' + str(key_offset))
+		 		chord_offset = chord_offset % 12
+		 		lookup_chord = 'C_' + str(chord_offset)
+		 		root_step = KEY_ROOTS[lookup_chord]
 
+		 		chord_list.append(Chord(root_step, quality, extension))
+	return chord_list
