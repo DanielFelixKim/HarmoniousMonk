@@ -50,4 +50,5 @@ start_p = tp.start_prob_dict
 trans_p = tp.prob_dict
 emit_p = tp.emmit
 
+print emit_p['Cmaj7']
 viterbi(obs,states,start_p,trans_p,emit_p)

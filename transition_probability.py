@@ -3,7 +3,7 @@ from chord import Chord, KEY_ROOTS, ROOT_NUM, get_all_chords, ROOTS
 import numpy as np
 import collections 
 import os 
-TUNES = ['stablemates.xml', 'along_came_betty.xml', 'it_could_happen_to_you.xml', 
+TUNES = ['stablemates.xml', 'along_came_betty.xml', 'it_could_happen_to_you.xml', 'alone_together.xml', 
 'there_will_never_be_another_you.xml' , 'on_green_dolphin_street.xml', 'four.xml', 'i_love_you.xml']
 
 
@@ -48,7 +48,7 @@ def tunes_chord_probs(tunes=TUNES):
 	for tune in tunes:
 		key, key_quality = extract_key(tune)
 		tune_chords = extract_chords(tune, key)
-		print tune_chords
+		print tune, tune_chords
 		trans_matrix = transition_matrix(tune_chords)
 		trans_matrices.append(trans_matrix)
 	tunes_prob_matrix = probability_matrix(trans_matrices)
@@ -162,9 +162,7 @@ chord_2 = 'Dm7b5'
 chord_probs=tunes_chord_probs()
 chord_prob=chord_prob(chord_1,chord_2,chord_probs)
 start_prob = starting_probability_array()
-print start_prob
 start_prob_dict = starting_probability_dict(start_prob)
-print start_prob_dict
 chord_start = 'Dm7b5'
 starting_chord_prob = find_start_prob(chord_start, start_prob)
 print 'The probability of a tune starting on ', chord_start, ' is ', starting_chord_prob
