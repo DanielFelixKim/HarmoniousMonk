@@ -82,11 +82,10 @@ def extract_chords(input_file, key):
 			else:
 		 		key_origin = ROOT_NUM['C']  
 		 		key_tune = ROOT_NUM[key]
-		 		key_offset = eval(key_origin + '-' + key_tune)
-		 		chord_offset = eval(ROOT_NUM[root_step] + '+' + str(key_offset))
+		 		key_offset = int(key_origin) - key_tune
+		 		chord_offset = ROOT_NUM[root_step] + key_offset
 		 		chord_offset = chord_offset % 12
 		 		lookup_chord = 'C_' + str(chord_offset)
 		 		root_step = KEY_ROOTS[lookup_chord]
-
 		 		chord_list.append(Chord(root_step, quality, extension))
 	return chord_list

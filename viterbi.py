@@ -44,14 +44,10 @@ def dptable(V):
 
 print tp.TUNES
 
-obs = ['C', 'B', 'G']
+obs = ['C', 'Ab', 'G']
 states = tp.ALL_CHORDS
 start_p = tp.start_prob_dict
 trans_p = tp.prob_dict
-emit_p = {
-	'Cmaj7' : {'C': 0.5, 'E': 0.2, 'G': 0.2, 'B': 0.1},
-	'Dm7' : {'D': 0.1, 'F': 0.2, 'A': 0.1, 'C': 0.6},
-	'G7' : {'G': 0.7, 'B': 0.1, 'D': 0.15, 'F': 0.05}
-}
+emit_p = tp.emmit
 
 viterbi(obs,states,start_p,trans_p,emit_p)
