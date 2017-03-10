@@ -1,11 +1,11 @@
 from xml_parser import extract_chords, extract_key
-import chord
+from chord import Chord, KEY_ROOTS, ROOT_NUM, get_all_chords
 import numpy as np
 
 TUNES = ['there_will_never_be_another_you.xml', 'four.xml',
  'on_green_dolphin_street.xml', 'it_could_happen_to_you.xml', 'i_love_you.xml']
 
-ALL_CHORDS = chord.get_all_chords()
+ALL_CHORDS = get_all_chords()
 
 """transition_matrix is a function that takes in a list of chords from a tune and 
 returns a matrix with the number of transitions from one chord to another. 
@@ -81,6 +81,200 @@ def chord_prob(chord_1, chord_2, probability_matrix):
 	x_index = ALL_CHORDS.index(chord_2)
 	return probability_matrix[y_index,x_index]
 
+# def chord_tone_prob(chord):
+# 		root = .3
+# 	if 'maj7' in chord and 'mmaj7' not in chord:
+# 		third_offset, third_prob = '4', .2
+# 		fifth_offset, fifth_prob = '1', .3
+# 		seventh_offset, seventh_prob = '5', .1
+# 		ninth_offset, ninth_prob = '2', .1
+
+# 	elif '6' in chord and 'm6' not in chord:
+# 		third_offset, third_prob = '4', .2
+# 		fifth_offset, fifth_prob = '1', .3
+# 		seventh_offset, seventh_prob = '3', .1
+# 		ninth_offset, ninth_prob = '2', .1
+
+# 	elif 'm6' in chord:
+# 		third_offset, third_prob = '9', .2
+# 		fifth_offset, fifth_prob = '1', .3
+# 		seventh_offset, seventh_prob = '8', .1
+# 		ninth_offset, ninth_prob = '2', .1
+
+# 	elif 'm7' in chord and 'm7b5' not in chord:
+# 		third_offset, third_prob = '9', .2
+# 		fifth_offset, fifth_prob = '1', .3
+# 		seventh_offset, seventh_prob = '10', .1
+# 		ninth_offset, ninth_prob = '2', .1
+
+# 	elif 'mmaj7' in chord:
+# 		third_offset, third_prob = '9', .2
+# 		fifth_offset, fifth_prob = '1', .3
+# 		seventh_offset, seventh_prob = '5', .1
+# 		ninth_offset, ninth_prob = '2', .1
+
+# 	elif '7' in chord and 'maj7' not in chord and 'm7' not in chord:
+# 		third_offset, third_prob = '4', .2
+# 		fifth_offset, fifth_prob = '6', .3
+# 		seventh_offset, seventh_prob = '10', .1
+# 		ninth_offset, ninth_prob = '7', .1
+
+# 	elif 'dim7' in chord:
+# 		third_offset, third_prob = '9', .3
+# 		fifth_offset, fifth_prob = '6', .3
+# 		seventh_offset, seventh_prob = '3', .1
+# 		ninth_offset, ninth_prob = '7', 0
+
+# 	elif 'm7b5' in chord:
+# 		third_offset, third_prob = '9', .2
+# 		fifth_offset, fifth_prob = '6', .3
+# 		seventh_offset, seventh_prob = '10', .1
+# 		ninth_offset, ninth_prob = '2', 1
+
+
+
+
+def emit_prob():
+	chord_tone_prob_dict = {}
+	for chord in ALL_CHORDS:
+		if 'F#' in chord:
+			chord = chord.replace('F#', 'Gb')
+		if 'maj7' in chord and 'mmaj7' not in chord:
+			key = chord
+			sub_chord_tone_dict = {}
+			root = chord[:-4]
+			sub_chord_tone_dict[root] = .3
+			root_num = ROOT_NUM[root]
+			maj_third = eval(root_num + '+' + '4') %12
+			maj_third = KEY_ROOTS['C_' + str(maj_third)]
+			sub_chord_tone_dict[maj_third] = .2
+			fifth = eval(root_num + '+' + '1') % 12
+			fifth = KEY_ROOTS['C_' + str(fifth)]
+			sub_chord_tone_dict[fifth] = .3
+			seventh =eval(root_num + '+' + '5') % 12
+			seventh = KEY_ROOTS['C_' + str(seventh)]
+			sub_chord_tone_dict[seventh] = .1
+			ninth = eval(root_num + '+' + '2') % 12
+			ninth = KEY_ROOTS['C_' + str(ninth)]
+			sub_chord_tone_dict[ninth] = .1
+			chord_tone_prob_dict[chord] = sub_chord_tone_dict
+		elif '6' in chord and 'm6' not in chord:
+			key = chord
+			sub_chord_tone_dict = {}
+			root = chord[:-1]
+			sub_chord_tone_dict[root] = .3
+			root_num = ROOT_NUM[root]
+			maj_third = eval(root_num + '+' + '4') %12
+			maj_third = KEY_ROOTS['C_' + str(maj_third)]
+			sub_chord_tone_dict[maj_third] = .2
+			fifth = eval(root_num + '+' + '1') % 12
+			fifth = KEY_ROOTS['C_' + str(fifth)]
+			sub_chord_tone_dict[fifth] = .3
+			seventh =eval(root_num + '+' + '3') % 12
+			seventh = KEY_ROOTS['C_' + str(seventh)]
+			sub_chord_tone_dict[seventh] = .1
+			ninth = eval(root_num + '+' + '2') % 12
+			ninth = KEY_ROOTS['C_' + str(ninth)]
+			sub_chord_tone_dict[ninth] = .1
+			chord_tone_prob_dict[chord] = sub_chord_tone_dict
+		elif 'm6' in chord:
+			key = chord
+			sub_chord_tone_dict = {}
+			root = chord[:-2]
+			sub_chord_tone_dict[root] = .3
+			root_num = ROOT_NUM[root]
+			maj_third = eval(root_num + '+' + '9') %12
+			maj_third = KEY_ROOTS['C_' + str(maj_third)]
+			sub_chord_tone_dict[maj_third] = .2
+			fifth = eval(root_num + '+' + '1') % 12
+			fifth = KEY_ROOTS['C_' + str(fifth)]
+			sub_chord_tone_dict[fifth] = .3
+			seventh =eval(root_num + '+' + '8') % 12
+			seventh = KEY_ROOTS['C_' + str(seventh)]
+			sub_chord_tone_dict[seventh] = .1
+			ninth = eval(root_num + '+' + '2') % 12
+			ninth = KEY_ROOTS['C_' + str(ninth)]
+			sub_chord_tone_dict[ninth] = .1
+			chord_tone_prob_dict[chord] = sub_chord_tone_dict
+		elif 'm7' in chord and 'm7b5' not in chord and 'dim7' not in chord:
+			key = chord
+			sub_chord_tone_dict = {}
+			root = chord[:-2]
+			sub_chord_tone_dict[root] = .3
+			root_num = ROOT_NUM[root]
+			maj_third = eval(root_num + '+' + '9') %12
+			maj_third = KEY_ROOTS['C_' + str(maj_third)]
+			sub_chord_tone_dict[maj_third] = .2
+			fifth = eval(root_num + '+' + '1') % 12
+			fifth = KEY_ROOTS['C_' + str(fifth)]
+			sub_chord_tone_dict[fifth] = .3
+			seventh =eval(root_num + '+' + '10') % 12
+			seventh = KEY_ROOTS['C_' + str(seventh)]
+			sub_chord_tone_dict[seventh] = .1
+			ninth = eval(root_num + '+' + '2') % 12
+			ninth = KEY_ROOTS['C_' + str(ninth)]
+			sub_chord_tone_dict[ninth] = .1
+			chord_tone_prob_dict[chord] = sub_chord_tone_dict
+		elif 'mmaj7' in chord:
+			key = chord
+			sub_chord_tone_dict = {}
+			root = chord[:-5]
+			sub_chord_tone_dict[root] = .3
+			root_num = ROOT_NUM[root]
+			maj_third = eval(root_num + '+' + '9') %12
+			maj_third = KEY_ROOTS['C_' + str(maj_third)]
+			sub_chord_tone_dict[maj_third] = .2
+			fifth = eval(root_num + '+' + '1') % 12
+			fifth = KEY_ROOTS['C_' + str(fifth)]
+			sub_chord_tone_dict[fifth] = .3
+			seventh =eval(root_num + '+' + '5') % 12
+			seventh = KEY_ROOTS['C_' + str(seventh)]
+			sub_chord_tone_dict[seventh] = .1
+			ninth = eval(root_num + '+' + '2') % 12
+			ninth = KEY_ROOTS['C_' + str(ninth)]
+			sub_chord_tone_dict[ninth] = .1
+			chord_tone_prob_dict[chord] = sub_chord_tone_dict
+		
+		elif 'dim7' in chord:
+			key = chord
+			sub_chord_tone_dict = {}
+			root = chord[:-4]
+			sub_chord_tone_dict[root] = .3
+			root_num = ROOT_NUM[root]
+			maj_third = eval(root_num + '+' + '9') %12
+			maj_third = KEY_ROOTS['C_' + str(maj_third)]
+			sub_chord_tone_dict[maj_third] = .2
+			fifth = eval(root_num + '+' + '6') % 12
+			fifth = KEY_ROOTS['C_' + str(fifth)]
+			sub_chord_tone_dict[fifth] = .3
+			seventh =eval(root_num + '+' + '3') % 12
+			seventh = KEY_ROOTS['C_' + str(seventh)]
+			sub_chord_tone_dict[seventh] = .1
+			ninth = eval(root_num + '+' + '7') % 12
+			ninth = KEY_ROOTS['C_' + str(ninth)]
+			sub_chord_tone_dict[ninth] = .1
+			chord_tone_prob_dict[chord] = sub_chord_tone_dict
+		elif 'm7b5' in chord:
+			key = chord
+			sub_chord_tone_dict = {}
+			root = chord[:-4]
+			sub_chord_tone_dict[root] = .3
+			root_num = ROOT_NUM[root]
+			maj_third = eval(root_num + '+' + '9') %12
+			maj_third = KEY_ROOTS['C_' + str(maj_third)]
+			sub_chord_tone_dict[maj_third] = .2
+			fifth = eval(root_num + '+' + '6') % 12
+			fifth = KEY_ROOTS['C_' + str(fifth)]
+			sub_chord_tone_dict[fifth] = .3
+			seventh =eval(root_num + '+' + '10') % 12
+			seventh = KEY_ROOTS['C_' + str(seventh)]
+			sub_chord_tone_dict[seventh] = .1
+			ninth = eval(root_num + '+' + '2') % 12
+			ninth = KEY_ROOTS['C_' + str(ninth)]
+			sub_chord_tone_dict[ninth] = .1
+			chord_tone_prob_dict[chord] = sub_chord_tone_dict
+
+	return chord_tone_prob_dict
 
 """Test"""
 chord_1 = 'Cmaj7'
@@ -103,3 +297,11 @@ prob_dict = probability_dictionary(chord_probs)
 #print ALL_CHORDS
 
 print 'The probability of ', chord_1, ' going to ', chord_2, ' is ', prob_dict[chord_1][chord_2]
+
+
+test1 = "F#maj7"
+test1.replace
+
+
+hmm = emit_prob()
+print hmm
