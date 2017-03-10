@@ -2,9 +2,10 @@ from xml_parser import extract_chords, extract_key
 from chord import Chord, KEY_ROOTS, ROOT_NUM, get_all_chords, ROOTS
 import numpy as np
 import collections 
+import os 
+TUNES = ['stablemates.xml', 'along_came_betty.xml', 'it_could_happen_to_you.xml', 
+'there_will_never_be_another_you.xml' , 'on_green_dolphin_street.xml', 'four.xml', 'i_love_you.xml']
 
-TUNES = ['there_will_never_be_another_you.xml', 'four.xml',
- 'on_green_dolphin_street.xml', 'it_could_happen_to_you.xml', 'i_love_you.xml']
 
 ALL_CHORDS = get_all_chords()
 
@@ -101,14 +102,23 @@ def chord_tone_prob(chord):
 	elif '7' in chord and len(chord) <= 3 and 'm7' not in chord:
 		return chord_tone(.3, -1, 4, .2, 6, .3, 10, .1 , 7, .1)
 
+	elif '7#5' in chord:
+		return chord_tone(.3, -3, 4, .2, 8, .3, 10, .1 , 7, .1)
+
 	elif '7#11' in chord:
 		return chord_tone(.3, -4, 4, .2, 6, .3, 10, .1 , 7, .1)
+
+	elif '7b13' in chord:
+		return chord_tone(.3, -4, 4, .2, 8, .3, 10, .1 , 7, .1)
 
 	elif '7alt' in chord:
 		return chord_tone(.3, -4, 4, .2, 6, .3, 10, .1 , 7, .1)
 
 	elif '7b9' in chord:
 		return chord_tone(.3, -3, 4, .2, 6, .3, 10, .1 , 7, .1)
+
+	elif '7#9' in chord:
+		return chord_tone(.3, -3, 4, .2, 6, .3, 10, .1 , 9, .1)
 
 	elif 'dim7' in chord:
 		return chord_tone(.3, -4, 9, .3, 6, .3, 3, .1 , 7, 0)
@@ -160,8 +170,6 @@ starting_chord_prob = find_start_prob(chord_start, start_prob)
 print 'The probability of a tune starting on ', chord_start, ' is ', starting_chord_prob
 print 'The probability of ', chord_1, ' going to ', chord_2, ' is ', chord_prob
 
-key,key_quality = extract_key('there_will_never_be_another_you.xml')
-print key, key_quality
 
 prob_dict = probability_dictionary(chord_probs)
 #print ALL_CHORDS

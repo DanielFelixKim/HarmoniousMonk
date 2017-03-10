@@ -17,7 +17,11 @@ def extract_key(input_file):
 			attributes = measure.find('attributes')
 			key_info = attributes.find('key')
 			key_num = key_info.find('fifths').text
-			key = eval(key_num + '+' + '6')
+			key_mode = key_info.find('mode').text
+			if key_mode == 'major':
+				key = eval(key_num + '+' + '6')
+			if key_mode == 'minor':
+				key = eval(key_num + '+' + '9')
 			key = 'C_' + str(key)
 			key = KEY_ROOTS[key]
 			key_quality = key_info.find('mode').text
