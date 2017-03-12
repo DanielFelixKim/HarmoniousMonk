@@ -1,5 +1,20 @@
 ROOTS = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
 
+QUALITIES = ['maj7', '6', 'm6', 'm7', 'mmaj7','7', 'm7b5', 'dim7', '7#5', '7alt', '7b9', '7#11', '7b13', '7#9']
+
+KEY_ROOTS = {'C_0':'Gb','C_1':'Db','C_2':'Ab','C_3':'Eb','C_4':'Bb','C_5':'F',
+			 'C_6': 'C', 'C_7': 'G', 'C_8': 'D', 'C_9': 'A', 'C_10': 'E', 'C_11': 'B'}
+
+ROOT_NUM = {'Gb': 0, 'Db': 1, 'Ab': 2, 'Eb': 3, 'Bb': 4, 'F': 5, 
+			'C': 6, 'G': 7, 'D': 8, 'A': 9, 'E': 10, 'B': 11}
+
+def get_all_chords():	
+	CHORDS = []
+	for root in ROOTS:
+		for quality in QUALITIES:
+			chord = root + quality
+			CHORDS.append(chord)
+	return CHORDS
 
 class Chord(object):
 	"""A Chord has the following properties:
@@ -16,7 +31,8 @@ class Chord(object):
 		self.quality = quality
 		self.extension = extension
 
-	# def transpose(self, root):
-	# 	transposition = ROOTS.index(self.root) - ROOTS.index(root)
-	# 	new_root_index = ROOTS.index(self.root) + transposition
-	# 	self.root = ROOTS[new_root_index]
+	def __repr__(self):
+		if self.extension == None: 
+			return str(self.root) + str(self.quality)
+		return str(self.root) + str(self.quality) + str(self.extension)
+
