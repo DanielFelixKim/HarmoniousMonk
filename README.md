@@ -4,7 +4,7 @@ http://lilingkai.github.io/harmoniousmonk
 
 A Northwestern University EECS 352 Final Project
 
-### Team Members:
+## Team Members:
 + Daniel Felix-Kim, danielfelixkim2016@u.northwestern.edu
 + Kevin Li, kevinli2017@u.northwestern.edu
 + Michelle Carbo, michellecarbo2016@u.northwestern.edu
