@@ -29,12 +29,14 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
 			opt.append(st)
 			previous = st
 			break
+
 # Follow the backtrack till the first observation
 	for t in range(len(V) - 2, -1, -1):
 		opt.insert(0, V[t + 1][previous]["prev"])
 		previous = V[t + 1][previous]["prev"]
 
 	print 'The steps of states are ' + ' '.join(opt) + ' with highest probability of %s' % max_prob
+	return opt
 
 def dptable(V):
 	# Print a table of steps from dictionary
@@ -51,4 +53,5 @@ trans_p = tp.prob_dict
 emit_p = tp.emmit
 
 print emit_p['Cmaj7']
-viterbi(obs,states,start_p,trans_p,emit_p)
+hm_chords = viterbi(obs,states,start_p,trans_p,emit_p)
+print "The chords are", hm_chords
