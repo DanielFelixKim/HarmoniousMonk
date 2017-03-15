@@ -3,9 +3,15 @@ from chord import Chord, KEY_ROOTS, ROOT_NUM, get_all_chords, ROOTS
 import numpy as np
 import collections 
 import os 
-TUNES = ['stablemates.xml', 'along_came_betty.xml', 'it_could_happen_to_you.xml', 'alone_together.xml', 
-'there_will_never_be_another_you.xml' , 'on_green_dolphin_street.xml', 'four.xml', 'i_love_you.xml']
+# TUNES = ['stablemates.xml', 'along_came_betty.xml', 'it_could_happen_to_you.xml', 'alone_together.xml', 
+# 'there_will_never_be_another_you.xml' , 'on_green_dolphin_street.xml', 'four.xml', 'i_love_you.xml']
 
+TUNES = []
+path = 'C:/Users/danie/Documents/GitHub/JazzHarm/src/jazz_standards'
+for tune in os.listdir(path):
+    if not tune.endswith('.xml'): continue
+    tune = os.path.join(path, tune)
+    TUNES.append(tune)
 
 ALL_CHORDS = get_all_chords()
 

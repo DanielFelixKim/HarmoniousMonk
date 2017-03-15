@@ -44,7 +44,7 @@ def dptable(V):
 
 print tp.TUNES
 
-obs = ['C', 'Ab', 'G', 'A', 'B', 'E']
+obs = ['C', 'Eb', 'Eb', 'Db', 'C']
 states = tp.ALL_CHORDS
 start_p = tp.start_prob_dict
 trans_p = tp.prob_dict
