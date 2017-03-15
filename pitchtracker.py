@@ -6,8 +6,8 @@ from collections import Counter
 
 
 if len(sys.argv) < 2:
-    print("Usage: %s <filename> [samplerate]" % sys.argv[0])
-    sys.exit(1)
+	print("Usage: %s <filename> [samplerate]" % sys.argv[0])
+	sys.exit(1)
 
 filename = sys.argv[1]
 
@@ -29,8 +29,8 @@ pitch_o.set_tolerance(tolerance)
 
 sound, sr = librosa.load(filename, samplerate)
 onset_frames = librosa.onset.onset_detect(sound, sr, hop_length=hop_s, wait=((0.5 * sr) / hop_s))
-#onsets = librosa.frames_to_samples(onset_frames, hop_length=hop_s)
-
+onsets = librosa.frames_to_samples(onset_frames, hop_length=hop_s)
+times = librosa.frames_to_time(onset_frames, hop_length=hop_s)
 
 pitches = []
 confidences = []
@@ -52,26 +52,28 @@ notes = []
 # total number of frames read
 total_frames = 0
 while True:
-    samples, read = s()
-    pitch = pitch_o(samples)[0]
-    pitch = int(round(pitch)) % 12
-    confidence = pitch_o.get_confidence()
-    #if confidence < 0.8: pitch = -1
-    #if pitch in notes:
-    #	note = notes[pitch]
-    if pitch in pitchclass:
-    	note = pitchclass[pitch]
-    	notes.append(note)
-    else:
-    	notes.append('0')
+	samples, read = s()
+	pitch = pitch_o(samples)[0]
+	pitch = int(round(pitch)) % 12
+	confidence = pitch_o.get_confidence()
+	#if confidence < 0.8: pitch = -1
+	#if pitch in notes:
+	#	note = notes[pitch]
+	if pitch in pitchclass:
+		note = pitchclass[pitch]
+		notes.append(note)
+	else:
+		notes.append('0')
 
-    print("%f %f %s %f" % (total_frames / (float(samplerate)), pitch, note, confidence))
-    #print("%f %s %f" % (total_frames / (float(samplerate)), note, confidence))
-    pitches += [pitch]
+	print("%f %f %s %f" % (total_frames / (float(samplerate)), pitch, note, confidence))
+	#print("%f %s %f" % (total_frames / (float(samplerate)), note, confidence))
+	pitches += [pitch]
 
-    confidences += [confidence]
-    total_frames += read
-    if read < hop_s: break
+	confidences += [confidence]
+	total_frames += read
+	if read < hop_s: break
+
+pitches_to_return = []
 
 for i in range(len(onset_frames)):
 	start = onset_frames[i]
@@ -81,8 +83,10 @@ for i in range(len(onset_frames)):
 		stop = onset_frames[i+1]
 		onset = notes[start:stop]
 	main_pitch = Counter(onset)
-	print main_pitch.most_common(1)
+	pitches_to_return.append(main_pitch.most_common(1)[0][0])
+
 #print notes
+print pitches_to_return
 print onset_frames
 
 if 0: sys.exit(0)
@@ -109,19 +113,19 @@ plt.setp(ax1.get_xticklabels(), visible = False)
 ax1.set_xlabel('')
 
 def array_from_text_file(filename, dtype = 'float'):
-    filename = os.path.join(os.path.dirname(__file__), filename)
-    return array([line.split() for line in open(filename).readlines()],
-        dtype = dtype)
+	filename = os.path.join(os.path.dirname(__file__), filename)
+	return array([line.split() for line in open(filename).readlines()],
+		dtype = dtype)
 
 ax2 = fig.add_subplot(312, sharex = ax1)
 ground_truth = os.path.splitext(filename)[0] + '.f0.Corrected'
 if os.path.isfile(ground_truth):
-    ground_truth = array_from_text_file(ground_truth)
-    true_freqs = ground_truth[:,2]
-    true_freqs = ma.masked_where(true_freqs < 2, true_freqs)
-    true_times = float(samplerate) * ground_truth[:,0]
-    ax2.plot(true_times, true_freqs, 'r')
-    ax2.axis( ymin = 0.9 * true_freqs.min(), ymax = 1.1 * true_freqs.max() )
+	ground_truth = array_from_text_file(ground_truth)
+	true_freqs = ground_truth[:,2]
+	true_freqs = ma.masked_where(true_freqs < 2, true_freqs)
+	true_times = float(samplerate) * ground_truth[:,0]
+	ax2.plot(true_times, true_freqs, 'r')
+	ax2.axis( ymin = 0.9 * true_freqs.min(), ymax = 1.1 * true_freqs.max() )
 # plot raw pitches
 ax2.plot(times, pitches, '.g')
 # plot cleaned up pitches
