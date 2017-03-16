@@ -3,7 +3,6 @@ import transition_probability as tp
 import viterbi as vt
 import numpy as np
 from aubio import source
-from IPython.display import Audio
 import scipy.io.wavfile
 
 from collections import Counter
@@ -23,10 +22,11 @@ def wavwrite(filepath, data, sr, norm=True, dtype='int16',):
     data = data.astype(dtype)
     scipy.io.wavfile.write(filepath, sr, data)
 
-def harmonious(melody, source, samplerate, window_size, hop_size, tolerance):
+def harmonious(melody, volume, source, samplerate, window_size, hop_size, tolerance):
 	notes, times = transcribe.pitchtracker(melody, source, samplerate, window_size, hop_size, tolerance)
 	chords = vt.viterbi(notes, states, start_p, trans_p, emit_p)
 	melody, samplerate = librosa.load(melody, sr=samplerate, duration=15)
+	melody = melody * volume
 	time_start = times[0]
 	time_end = times[1]
 	chord_length = time_end - time_start
@@ -53,7 +53,7 @@ def harmonious(melody, source, samplerate, window_size, hop_size, tolerance):
 
 
 
-filename = 'CBDC.wav'
+filename = 'trump_china.wav'
 win_s = 4096 
 hop_s = 512 
 samplerate = 44100
@@ -61,6 +61,6 @@ tol = .8
 s = source(filename, samplerate, hop_s)
 samplerate = s.samplerate
 states, start_p, trans_p, emit_p = setup()
-chords, notes, times, harmonized = harmonious('CBDC.wav', s, samplerate, win_s, hop_s, tol)
+chords, notes, times, harmonized = harmonious('trump_china.wav', .3, s, samplerate, win_s, hop_s, tol)
 print "These are the notes", notes
 print "These are the chords", chords
