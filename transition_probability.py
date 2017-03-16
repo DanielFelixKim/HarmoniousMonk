@@ -54,7 +54,7 @@ def tunes_chord_probs(tunes=TUNES):
 	for tune in tunes:
 		key, key_quality = extract_key(tune)
 		tune_chords = extract_chords(tune, key)
-		print tune, tune_chords
+		# print tune, tune_chords
 		trans_matrix = transition_matrix(tune_chords)
 		trans_matrices.append(trans_matrix)
 	tunes_prob_matrix = probability_matrix(trans_matrices)

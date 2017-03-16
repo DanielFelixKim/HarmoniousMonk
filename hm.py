@@ -61,6 +61,6 @@ tol = .8
 s = source(filename, samplerate, hop_s)
 samplerate = s.samplerate
 states, start_p, trans_p, emit_p = setup()
-chords, notes, times, harmonized = harmonious('speech.wav', s, samplerate, win_s, hop_s, tol)
+chords, notes, times, harmonized = harmonious('CBDC.wav', s, samplerate, win_s, hop_s, tol)
 print "These are the notes", notes
 print "These are the chords", chords
