@@ -52,9 +52,15 @@ def extract_chords(input_file, key):
 				root_step += 'b'
 			if root_step == 'F#':
 				root_step = 'Gb'
+			elif root_step == 'G#':
+				root_step = 'Ab'
+			elif root_step == 'C#':
+				root_step = 'Db'
 			#Find chord qualities and convert to shorthand
 			kind = chord.find('kind')
 			quality = kind.get('text')
+			if quality == 'm9':
+					quality = 'm6'
 			if quality == None: 
 				quality = chord.find('kind').text
 				if quality == 'diminished-seventh':

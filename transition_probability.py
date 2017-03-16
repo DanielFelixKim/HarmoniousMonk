@@ -54,7 +54,7 @@ def tunes_chord_probs(tunes=TUNES):
 	for tune in tunes:
 		key, key_quality = extract_key(tune)
 		tune_chords = extract_chords(tune, key)
-		# print tune, tune_chords
+		print tune, tune_chords
 		trans_matrix = transition_matrix(tune_chords)
 		trans_matrices.append(trans_matrix)
 	tunes_prob_matrix = probability_matrix(trans_matrices)
@@ -139,6 +139,10 @@ def emit_prob():
 	for chord in ALL_CHORDS:
 		if 'F#' in chord:
 			chord = chord.replace('F#', 'Gb')
+		elif 'G#' in chord:
+			chord = chord.replace('G#', 'Ab')
+		elif 'C#' in chord:
+			chord = chord.replace('C#', 'Db')
 		chord_tone_info = chord_tone_prob(chord)
 		sub_chord_tone_dict = {}
 		root = chord[:chord_tone_info.index]
