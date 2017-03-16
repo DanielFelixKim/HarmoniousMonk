@@ -1,4 +1,4 @@
-import sys, librosa, transcribe, IPython
+import sys, librosa, transcribe
 import transition_probability as tp
 import viterbi as vt
 import numpy as np
@@ -25,8 +25,8 @@ def wavwrite(filepath, data, sr, norm=True, dtype='int16',):
 def harmonious(melody, volume, source, samplerate, window_size, hop_size, tolerance):
 	notes, times = transcribe.pitchtracker(melody, source, samplerate, window_size, hop_size, tolerance)
 	chords = vt.viterbi(notes, states, start_p, trans_p, emit_p)
-	melody, samplerate = librosa.load(melody, sr=samplerate, duration=15)
-	melody = melody * volume
+	sound, samplerate = librosa.load(melody, sr=samplerate, duration=15)
+	sound *= volume
 	time_start = times[0]
 	time_end = times[1]
 	chord_length = time_end - time_start
@@ -46,21 +46,37 @@ def harmonious(melody, volume, source, samplerate, window_size, hop_size, tolera
 		else: 
 			time_end = len(melody)
 		chord_length = time_end - time_start
-		melody[time_start:time_end] += harmonization[:chord_length]
-	wavwrite('harmonized.wav', melody, samplerate)
-	return chords, notes, times, melody
+		sound[time_start:time_end] += harmonization[:chord_length]
+	newfilename = melody[:len(melody)-4]
+	print newfilename
+	newfilename += '_harmonized.wav'
+	wavwrite(newfilename, sound, samplerate)
+	return chords, notes, times, sound
 
+# main function 
+if __name__ == "__main__":
+	if len(sys.argv) < 4:
+		print("Usage: %s <filename> [volume] [tolerance]" % sys.argv[0])
+		sys.exit(1)
 
+	filename = sys.argv[1]
 
+	downsample = 1
+	samplerate = 44100 // downsample
+	#if len( sys.argv ) > 2: samplerate = int(sys.argv[2])
 
-filename = 'trump_china.wav'
-win_s = 4096 
-hop_s = 512 
-samplerate = 44100
-tol = .8
-s = source(filename, samplerate, hop_s)
-samplerate = s.samplerate
-states, start_p, trans_p, emit_p = setup()
-chords, notes, times, harmonized = harmonious('trump_china.wav', .3, s, samplerate, win_s, hop_s, tol)
-print "These are the notes", notes
-print "These are the chords", chords
+	win_s = 4096 // downsample # fft size
+	hop_s = 512  // downsample # hop size
+
+	win_s = 4096 
+	hop_s = 512 
+	samplerate = 44100
+	vol = float(sys.argv[2])
+	tol = float(sys.argv[3])
+
+	s = source(filename, samplerate, hop_s)
+	samplerate = s.samplerate
+	states, start_p, trans_p, emit_p = setup()
+	chords, notes, times, harmonized = harmonious(filename, vol, s, samplerate, win_s, hop_s, tol)
+	print "These are the notes", notes
+	print "These are the chords", chords
