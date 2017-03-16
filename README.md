@@ -39,7 +39,9 @@ Next open your CLI and navigate to the folder where Harmonious Monk has been ins
 ```
 $ python hm.py your_sound_file.wav {volume} {threshold}
 ```
-Congrats! Open up the folder where Harmonious Monk is to find the harmonized sound file, listen and enjoy!
+where volume is a postive float greater than 0 and threshold is a float between 0 and 1.
+
+Congrats! Open up the folder where Harmonious Monk is to find the harmonized sound file, listen, and enjoy!
 
 
 
