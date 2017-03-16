@@ -17,8 +17,8 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
 					max_prob = max_tr_prob * emit_p[st][obs[t]]
 					V[t][st] = {"prob": max_prob, "prev": prev_st}
 					break
-	for line in dptable(V):
-		print line
+	# for line in dptable(V):
+	# 	# print line
 	opt = []
 # The highest probability
 	max_prob = max(value["prob"] for value in V[-1].values())
@@ -35,7 +35,7 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
 		opt.insert(0, V[t + 1][previous]["prev"])
 		previous = V[t + 1][previous]["prev"]
 
-	print 'The steps of states are ' + ' '.join(opt) + ' with highest probability of %s' % max_prob
+	#print 'The steps of states are ' + ' '.join(opt) + ' with highest probability of %s' % max_prob
 	return opt
 
 def dptable(V):
@@ -44,14 +44,14 @@ def dptable(V):
 	for state in V[0]:
 		yield "%.7s: " % state + " ".join("%.7s" % ("%f" % v[state]["prob"]) for v in V)
 
-print tp.TUNES
 
-obs = ['C', 'Eb', 'Eb', 'Db', 'C']
-states = tp.ALL_CHORDS
-start_p = tp.start_prob_dict
-trans_p = tp.prob_dict
-emit_p = tp.emmit
 
-print emit_p['Cmaj7']
-hm_chords = viterbi(obs,states,start_p,trans_p,emit_p)
-print "The chords are", hm_chords
+# obs = ['C', 'Eb', 'Eb', 'Db', 'C']
+# states = tp.ALL_CHORDS
+# start_p = tp.start_prob_dict
+# trans_p = tp.prob_dict
+# emit_p = tp.emmit
+
+# print emit_p['Cmaj7']
+# hm_chords = viterbi(obs,states,start_p,trans_p,emit_p)
+# print "The chords are", hm_chords

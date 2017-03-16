@@ -7,7 +7,7 @@ import os
 # 'there_will_never_be_another_you.xml' , 'on_green_dolphin_street.xml', 'four.xml', 'i_love_you.xml']
 
 TUNES = []
-path = 'C:\Users\danielfelixkim\Documents\GitHub\JazzHarm\JazzHarm\jazz_standards'
+path = 'C:\Users\danie\Documents\GitHub\JazzHarm\src\jazz_standards'
 for tune in os.listdir(path):
     if not tune.endswith('.xml'): continue
     tune = os.path.join(path, tune)
@@ -54,7 +54,7 @@ def tunes_chord_probs(tunes=TUNES):
 	for tune in tunes:
 		key, key_quality = extract_key(tune)
 		tune_chords = extract_chords(tune, key)
-		print tune, tune_chords
+		# print tune, tune_chords
 		trans_matrix = transition_matrix(tune_chords)
 		trans_matrices.append(trans_matrix)
 	tunes_prob_matrix = probability_matrix(trans_matrices)
@@ -171,14 +171,14 @@ start_prob = starting_probability_array()
 start_prob_dict = starting_probability_dict(start_prob)
 chord_start = 'Dm7b5'
 starting_chord_prob = find_start_prob(chord_start, start_prob)
-print 'The probability of a tune starting on ', chord_start, ' is ', starting_chord_prob
-print 'The probability of ', chord_1, ' going to ', chord_2, ' is ', chord_prob
+# print 'The probability of a tune starting on ', chord_start, ' is ', starting_chord_prob
+# print 'The probability of ', chord_1, ' going to ', chord_2, ' is ', chord_prob
 
 
 prob_dict = probability_dictionary(chord_probs)
 #print ALL_CHORDS
 
-print 'The probability of ', chord_1, ' going to ', chord_2, ' is ', prob_dict[chord_1][chord_2]
+# print 'The probability of ', chord_1, ' going to ', chord_2, ' is ', prob_dict[chord_1][chord_2]
 
 emmit = emit_prob()
 
