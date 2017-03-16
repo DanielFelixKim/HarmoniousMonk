@@ -33,7 +33,7 @@ def pitchtracker(filename, source, samplerate, window_size, hop_size, tolerance,
 		120:'C10', 121:'C#10', 122:'D10', 123:'D#10', 124:'E10', 125:'F10', 126:'F#10', 127:'G10'
 	}
 	"""
-	pitchclass = {-1:'--', 0:'C', 1:'C#', 2:'D', 3:'D#', 4:'E', 5:'F', 6:'F#', 7:'G', 8:'G#', 9:'A', 10:'A#', 11:'B'}
+	pitchclass = {-1:'--', 0:'C', 1:'Db', 2:'D', 3:'Eb', 4:'E', 5:'F', 6:'Gb', 7:'G', 8:'Ab', 9:'A', 10:'Bb', 11:'B'}
 	
 	# total number of frames read
 	total_frames = 0
