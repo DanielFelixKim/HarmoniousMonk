@@ -36,6 +36,8 @@ def harmonious(melody, source, samplerate, window_size, hop_size, tolerance):
 			chord = chord.replace('7#5', '7alt')
 		elif '7b9'in chord:
 			chord = chord.replace('7b9', '7alt')
+		elif '7b13' in chord:
+			chord = chord.replace('7b13', '7alt')
 		chord_add = 'chords/' + chord + '.wav'
 		harmonization, samplerate = librosa.load(chord_add, sr=samplerate, duration=4)
 		time_start = times[index]
@@ -59,6 +61,6 @@ tol = .8
 s = source(filename, samplerate, hop_s)
 samplerate = s.samplerate
 states, start_p, trans_p, emit_p = setup()
-chords, notes, times, harmonized = harmonious('Speech.wav', s, samplerate, win_s, hop_s, tol)
+chords, notes, times, harmonized = harmonious('speech.wav', s, samplerate, win_s, hop_s, tol)
 print "These are the notes", notes
 print "These are the chords", chords
