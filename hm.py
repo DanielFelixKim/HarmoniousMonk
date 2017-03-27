@@ -25,7 +25,8 @@ def wavwrite(filepath, data, sr, norm=True, dtype='int16',):
 def harmonious(melody, volume, source, samplerate, window_size, hop_size, tolerance):
 	notes, times = transcribe.pitchtracker(melody, source, samplerate, window_size, hop_size, tolerance)
 	chords = vt.viterbi(notes, states, start_p, trans_p, emit_p)
-	sound, samplerate = librosa.load(melody, sr=samplerate, duration=15)
+	duration = librosa.get_duration(filename=melody)
+	sound, samplerate = librosa.load(melody, sr=samplerate, duration=duration)
 	sound *= volume
 	time_start = times[0]
 	time_end = times[1]
